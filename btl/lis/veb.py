@@ -29,31 +29,29 @@ class VEB:
         if self.min is None:
             self.min = key
             self.max = key
-        elif key < self.min:
-            key, self.min = self.min, key
+        else:
+            if key < self.min:
+                key, self.min = self.min, key
             if self.u > 2:
-                h = self.high(self.min)
-                self.clusters[h].min = self.min
-        if self.u > 2:
-            h = self.high(key)
-            if self.clusters[h] is None:
-                self.clusters[h] = VEB(self.high(self.u))
-            if self.summary is None:
-                self.summary = VEB(self.high(self.u))
+                h = self.high(key)
+                if self.clusters[h] is None:
+                    self.clusters[h] = VEB(self.high(self.u))
+                if self.summary is None:
+                    self.summary = VEB(self.high(self.u))
 
-            if self.clusters[h].min is None:
-                self.summary.insert(h)
-                self.clusters[h].min = self.low(key)
-                self.clusters[h].max = self.low(key)
+                if self.clusters[h].min is None:
+                    self.summary.insert(h)
+                    self.clusters[h].min = self.low(key)
+                    self.clusters[h].max = self.low(key)
 
-            else:
-                self.clusters[h].insert(self.low(key))
+                else:
+                    self.clusters[h].insert(self.low(key))
 
-        if key > self.max:
-            self.max = key
+            if key > self.max:
+                self.max = key
 
     def has_member(self, key):
-        if self.u < key:
+        if self.u <= key:
             return False
         if key == self.min or key == self.max:
             return True
@@ -172,7 +170,7 @@ class VEB:
 
 
 if __name__ == '__main__':
-    v = VEB(-1)
+    v = VEB(8)
     v.insert(2)
     v.insert(3)
     v.insert(6)
@@ -180,3 +178,4 @@ if __name__ == '__main__':
     v.insert(1)
 
     v.has_member(4)
+    v.clusters[0].has_member(4)
