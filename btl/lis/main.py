@@ -33,12 +33,9 @@ def merge(block_s, prev_list):
 
 def main(s):
     n = len(s)
-    min_value = min(s)
-    for m in range(1, n):
+    m = 1
+    while m <= n:
         is_break = False
-        if n % m:
-            for i in range(m - n % m):
-                s.append(min_value)
 
         num_block = math.ceil(n / m)
 
@@ -64,7 +61,14 @@ def main(s):
             for i in prev_list:
                 B.insert(sorted_block_s[block][i])
 
-            for i in range(block * m, block * m + m):
+            start_ind = block * m
+            # end_ind = start_ind + m
+            if block < num_block - 1:
+                end_ind = start_ind + m
+            else:
+                end_ind = start_ind + (n % m if n % m else m)
+
+            for i in range(start_ind, end_ind):
                 key = sorted_block_s[block][s[i]]
                 B.insert(key=key)
                 if key == B.max:
@@ -83,6 +87,12 @@ def main(s):
 
         if not is_break:
             return k
+
+        new_m = math.ceil(math.pow(m, math.log(m)))
+        if new_m <= m:
+            m += 1
+        else:
+            m = new_m
 
 
 if __name__ == '__main__':
