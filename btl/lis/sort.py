@@ -1,11 +1,11 @@
-def counting_sort(arr, exp):
+def counting_sort(arr, exp, key):
     n = len(arr)
 
     output = [0] * n
     count = [0] * 10
 
     for i in range(0, n):
-        index = (arr[i] / exp)
+        index = (key(arr[i]) / exp)
         count[int(index % 10)] += 1
 
     for i in range(1, 10):
@@ -13,7 +13,7 @@ def counting_sort(arr, exp):
 
     i = n - 1
     while i >= 0:
-        index = (arr[i] / exp)
+        index = (key(arr[i]) / exp)
         output[count[int(index % 10)] - 1] = arr[i]
         count[int(index % 10)] -= 1
         i -= 1
@@ -22,12 +22,12 @@ def counting_sort(arr, exp):
         arr[i] = output[i]
 
 
-def radix_sort(arr):
-    max_element = max(arr)
+def radix_sort(arr, key=lambda x: x):
+    max_element = key(max(arr, key=key))
 
     exp = 1
     while max_element / exp > 0:
-        counting_sort(arr, exp)
+        counting_sort(arr, exp, key=key)
         exp *= 10
 
 
