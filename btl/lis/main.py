@@ -35,19 +35,22 @@ def merge(block_s, prev_list):
 def main(s):
     n = len(s)
     m = 1
+
+    sorted_s = [(i, v) for i, v in enumerate(s)]
+    radix_sort(sorted_s, key=lambda x: x[1])
+
     while m <= n:
         is_break = False
 
         num_block = math.ceil(n / m)
 
-        sorted_s = [(int(i / m), v) for i, v in enumerate(s)]
-        radix_sort(sorted_s, key=lambda x: x[1])
         sorted_block_s = {i: {} for i in range(num_block)}
 
         for element in sorted_s:
-            sorted_block_s[element[0]][element[1]] = len(sorted_block_s[element[0]])
+            block = int(element[0]/m)
+            sorted_block_s[block][element[1]] = len(sorted_block_s[block])
 
-        B = VEB(math.ceil(2 * m))
+        B = VEB(2 * m)
         k = 0
         prev_list = []
 
@@ -92,23 +95,50 @@ def main(s):
         new_m = math.ceil(math.pow(m, math.log(m)))
         if new_m <= m:
             m += 1
+        elif new_m > n:
+            m = n
         else:
             m = new_m
+
+
+def core_alg(s):
+    n = len(s)
+
+    B = VEB(n)
+    k = 0
+    for key in s:
+        B.insert(key=key)
+        if key == B.max:
+            k += 1
+        else:
+            B.delete(B.get_successor(key=key))
+    return k
 
 
 if __name__ == '__main__':
     # s = [12, 8, 9, 1, 11, 6, 7, 2, 10, 4, 5, 3]
     # print(main(s))
 
-    file = open("input.txt", "r")
-    output_file = open("result.txt", "w")
-    line = file.readline()
-    num_test = int(line)
-    for test in range(num_test):
-        s = [int(i) for i in file.readline().split()]
-        start = timeit.default_timer()
-        k = main(s)
-        time = timeit.default_timer() - start
-        output_file.write(f"{k}-{len(s)}-{time} \n")
+    with open("input.txt", "r") as file:
+        with open("result.txt", "w") as output_file:
+            line = file.readline()
+            num_test = int(line)
+            for test in range(num_test):
+                s = [int(i) for i in file.readline().split()]
 
+                start = timeit.default_timer()
+                k = main(s)
+                time = timeit.default_timer() - start
+                output_file.write(f"{k}-{len(s)}-{time} \n")
 
+    # with open("input.txt", "r") as file:
+    #         with open("result.txt", "a") as output_file:
+    #             line = file.readline()
+    #             num_test = int(line)
+    #             for test in range(num_test):
+    #                 s = [int(i) for i in file.readline().split()]
+    #
+    #                 start = timeit.default_timer()
+    #                 k = core_alg(s)
+    #                 time = timeit.default_timer() - start
+    #                 output_file.write(f"{k}-{len(s)}-{time} \n")

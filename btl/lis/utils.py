@@ -10,4 +10,4 @@ def gen_input(*args):
 
 
 if __name__ == '__main__':
-    gen_input(100, 200, 300, 400, 500)
+    gen_input(1000)
