@@ -1,6 +1,7 @@
 import math
 from sort import radix_sort
 from veb import VEB
+import timeit
 
 
 def merge(block_s, prev_list):
@@ -96,5 +97,18 @@ def main(s):
 
 
 if __name__ == '__main__':
-    s = [12, 8, 9, 1, 11, 6, 7, 2, 10, 4, 5, 3]
-    print(main(s))
+    # s = [12, 8, 9, 1, 11, 6, 7, 2, 10, 4, 5, 3]
+    # print(main(s))
+
+    file = open("input.txt", "r")
+    output_file = open("result.txt", "w")
+    line = file.readline()
+    num_test = int(line)
+    for test in range(num_test):
+        s = [int(i) for i in file.readline().split()]
+        start = timeit.default_timer()
+        k = main(s)
+        time = timeit.default_timer() - start
+        output_file.write(f"{k}-{len(s)}-{time} \n")
+
+
