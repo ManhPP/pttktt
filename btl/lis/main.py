@@ -1,7 +1,7 @@
 import math
+
 from sort import radix_sort
 from veb import VEB
-import timeit
 
 
 def merge(block_s, prev_list):
@@ -40,6 +40,7 @@ def main(s):
     radix_sort(sorted_s, key=lambda x: x[1])
 
     while m <= n:
+        track_dict = {}
         is_break = False
 
         num_block = math.ceil(n / m)
@@ -52,9 +53,15 @@ def main(s):
 
         B = VEB(2 * m)
         k = 0
-        prev_list = []
-
+        r_sorted_block_s = {}
+        block = 0
         for block in range(num_block):
+            prev_list = []
+            for i in range(2 * m):
+                if B.has_member(i):
+                    prev_list.append(r_sorted_block_s[i])
+                    B.delete(i)
+
             sorted_block_s[block] = merge(sorted_block_s[block], prev_list)
             r_sorted_block_s = {i: j for j, i in sorted_block_s[block].items()}
 
@@ -78,19 +85,28 @@ def main(s):
                 if key == B.max:
                     k += 1
                 else:
-                    B.delete(B.get_successor(key=key))
-            prev_list = []
-            for i in range(2 * m):
-                if B.has_member(i):
-                    prev_list.append(r_sorted_block_s[i])
-                    B.delete(i)
+                    suc_of_key = B.get_successor(key=key)
+                    suc_of_suc_of_key = B.get_successor(key=suc_of_key)
+                    pred_of_key = B.get_predecessor(key=key)
+                    if suc_of_key is not None:
+                        if suc_of_suc_of_key is not None and r_sorted_block_s[suc_of_suc_of_key] not in track_dict.keys():
+                            track_dict[r_sorted_block_s[suc_of_suc_of_key]] = r_sorted_block_s[suc_of_key]
+                        if pred_of_key is not None and r_sorted_block_s[suc_of_key] not in track_dict.keys():
+                            track_dict[r_sorted_block_s[suc_of_key]] = r_sorted_block_s[pred_of_key]
+                    B.delete(suc_of_key)
 
             if k >= 2 * m:
                 is_break = True
                 break
 
         if not is_break:
-            return k
+            result = [r_sorted_block_s[B.max]]
+            for _ in range(k-1):
+                if result[0] in track_dict.keys():
+                    result.insert(0, track_dict[result[0]])
+                else:
+                    result.insert(0, r_sorted_block_s[B.get_predecessor(sorted_block_s[block][result[0]])])
+            return k, result
 
         new_m = math.ceil(math.pow(m, math.log(m)))
         if new_m <= m:
@@ -116,20 +132,20 @@ def core_alg(s):
 
 
 if __name__ == '__main__':
-    # s = [12, 8, 9, 1, 11, 6, 7, 2, 10, 4, 5, 3]
-    # print(main(s))
+    s = [12, 8, 9, 1, 11, 6, 7, 2, 10, 4, 5, 3, 15, 13, 14]
+    print(main(s))
 
-    with open("input.txt", "r") as file:
-        with open("result.txt", "w") as output_file:
-            line = file.readline()
-            num_test = int(line)
-            for test in range(num_test):
-                s = [int(i) for i in file.readline().split()]
-
-                start = timeit.default_timer()
-                k = main(s)
-                time = timeit.default_timer() - start
-                output_file.write(f"{k}-{len(s)}-{time} \n")
+    # with open("input.txt", "r") as file:
+    #     with open("result.txt", "w") as output_file:
+    #         line = file.readline()
+    #         num_test = int(line)
+    #         for test in range(num_test):
+    #             s = [int(i) for i in file.readline().split()]
+    #
+    #             start = timeit.default_timer()
+    #             k = main(s)
+    #             time = timeit.default_timer() - start
+    #             output_file.write(f"{k}-{len(s)}-{time} \n")
 
     # with open("input.txt", "r") as file:
     #         with open("result.txt", "a") as output_file:
