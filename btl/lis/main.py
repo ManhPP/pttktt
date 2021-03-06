@@ -2,6 +2,7 @@ import math
 
 from sort import radix_sort
 from veb import VEB
+import timeit
 
 
 def merge(block_s, prev_list):
@@ -132,20 +133,20 @@ def core_alg(s):
 
 
 if __name__ == '__main__':
-    s = [12, 8, 9, 1, 11, 6, 7, 2, 10, 4, 5, 3, 15, 13, 14]
-    print(main(s))
+    # s = [12, 8, 9, 1, 11, 6, 7, 2, 10, 4, 5, 3, 15, 13, 14]
+    # print(main(s))
 
-    # with open("input.txt", "r") as file:
-    #     with open("result.txt", "w") as output_file:
-    #         line = file.readline()
-    #         num_test = int(line)
-    #         for test in range(num_test):
-    #             s = [int(i) for i in file.readline().split()]
-    #
-    #             start = timeit.default_timer()
-    #             k = main(s)
-    #             time = timeit.default_timer() - start
-    #             output_file.write(f"{k}-{len(s)}-{time} \n")
+    with open("input.txt", "r") as file:
+        with open("result.txt", "w") as output_file:
+            line = file.readline()
+            num_test = int(line)
+            for test in range(num_test):
+                s = [int(i) for i in file.readline().split()]
+
+                start = timeit.default_timer()
+                k = main(s)
+                time = timeit.default_timer() - start
+                output_file.write(f"{k}-{len(s)}-{time} \n")
 
     # with open("input.txt", "r") as file:
     #         with open("result.txt", "a") as output_file:
