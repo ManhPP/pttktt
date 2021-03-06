@@ -146,7 +146,7 @@ if __name__ == '__main__':
                 start = timeit.default_timer()
                 k = main(s)
                 time = timeit.default_timer() - start
-                output_file.write(f"{k}-{len(s)}-{time} \n")
+                output_file.write(f"{k[0]}-{len(s)}-{time}-{k[1]}\n")
 
     # with open("input.txt", "r") as file:
     #         with open("result.txt", "a") as output_file:
