@@ -1,5 +1,5 @@
 import math
-
+import pandas as pd
 from sort import radix_sort
 from veb import VEB
 import timeit
@@ -135,18 +135,26 @@ def core_alg(s):
 if __name__ == '__main__':
     # s = [12, 8, 9, 1, 11, 6, 7, 2, 10, 4, 5, 3, 15, 13, 14]
     # print(main(s))
+    result_dict = {}
+    result_dict["n"] = []
+    result_dict["k"] = []
+    result_dict["time"] = []
 
     with open("input.txt", "r") as file:
         with open("result.txt", "w") as output_file:
-            line = file.readline()
-            num_test = int(line)
+            num_test = int(file.readline())
             for test in range(num_test):
                 s = [int(i) for i in file.readline().split()]
 
                 start = timeit.default_timer()
                 k = main(s)
                 time = timeit.default_timer() - start
-                output_file.write(f"{k[0]}-{len(s)}-{time}-{k[1]}\n")
+                output_file.write(f"{k[0]}-{len(s)}-{time:.3f}-{k[1]}\n")
+                result_dict["n"].append(len(s))
+                result_dict["k"].append(k[0])
+                result_dict["time"].append(f"{time:.3f}")
+    df = pd.DataFrame(result_dict)
+    df.to_csv("result.csv")
 
     # with open("input.txt", "r") as file:
     #         with open("result.txt", "a") as output_file:
