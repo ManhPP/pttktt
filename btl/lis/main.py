@@ -101,13 +101,14 @@ def main(s):
                 break
 
         if not is_break:
-            result = [r_sorted_block_s[B.max]]
-            for _ in range(k-1):
-                if result[0] in track_dict.keys():
-                    result.insert(0, track_dict[result[0]])
-                else:
-                    result.insert(0, r_sorted_block_s[B.get_predecessor(sorted_block_s[block][result[0]])])
-            return k, result
+            # result = [r_sorted_block_s[B.max]]
+            # for _ in range(k-1):
+            #     if result[0] in track_dict.keys():
+            #         result.insert(0, track_dict[result[0]])
+            #     else:
+            #         result.insert(0, r_sorted_block_s[B.get_predecessor(sorted_block_s[block][result[0]])])
+            # return k, result
+            return k,
 
         new_m = math.ceil(math.pow(m, math.log(m)))
         if new_m <= m:
@@ -135,10 +136,7 @@ def core_alg(s):
 if __name__ == '__main__':
     # s = [12, 8, 9, 1, 11, 6, 7, 2, 10, 4, 5, 3, 15, 13, 14]
     # print(main(s))
-    result_dict = {}
-    result_dict["n"] = []
-    result_dict["k"] = []
-    result_dict["time"] = []
+    result_dict = {"n": [], "k": [], "time": []}
 
     with open("input.txt", "r") as file:
         with open("result.txt", "w") as output_file:
