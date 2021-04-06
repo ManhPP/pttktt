@@ -1,8 +1,9 @@
 import math
-import pandas as pd
+import timeit
+
+from lis_extra import lis_dp, lis_onlogn
 from sort import radix_sort
 from veb import VEB
-import timeit
 
 
 def merge(block_s, prev_list):
@@ -136,10 +137,9 @@ def core_alg(s):
 if __name__ == '__main__':
     # s = [12, 8, 9, 1, 11, 6, 7, 2, 10, 4, 5, 3, 15, 13, 14]
     # print(main(s))
-    result_dict = {"n": [], "k": [], "time": []}
 
     with open("input.txt", "r") as file:
-        with open("result.txt", "w") as output_file:
+        with open("result_main.txt", "w") as output_file:
             num_test = int(file.readline())
             for test in range(num_test):
                 s = [int(i) for i in file.readline().split()]
@@ -147,21 +147,40 @@ if __name__ == '__main__':
                 start = timeit.default_timer()
                 k = main(s)
                 time = timeit.default_timer() - start
-                output_file.write(f"{k[0]}-{len(s)}-{time:.3f}-{k[1]}\n")
-                result_dict["n"].append(len(s))
-                result_dict["k"].append(k[0])
-                result_dict["time"].append(f"{time:.3f}")
-    df = pd.DataFrame(result_dict)
-    df.to_csv("result.csv")
+                output_file.write(f"{k[0]}-{len(s)}-{time:.3f}\n")
 
-    # with open("input.txt", "r") as file:
-    #         with open("result.txt", "a") as output_file:
-    #             line = file.readline()
-    #             num_test = int(line)
-    #             for test in range(num_test):
-    #                 s = [int(i) for i in file.readline().split()]
-    #
-    #                 start = timeit.default_timer()
-    #                 k = core_alg(s)
-    #                 time = timeit.default_timer() - start
-    #                 output_file.write(f"{k}-{len(s)}-{time} \n")
+    with open("input.txt", "r") as file:
+        with open("result_core.txt", "w") as output_file:
+            line = file.readline()
+            num_test = int(line)
+            for test in range(num_test):
+                s = [int(i) for i in file.readline().split()]
+
+                start = timeit.default_timer()
+                k = core_alg(s)
+                time = timeit.default_timer() - start
+                output_file.write(f"{k}-{len(s)}-{time} \n")
+
+    with open("input.txt", "r") as file:
+        with open("result_dp.txt", "w") as output_file:
+            line = file.readline()
+            num_test = int(line)
+            for test in range(num_test):
+                s = [int(i) for i in file.readline().split()]
+
+                start = timeit.default_timer()
+                k = lis_dp(s)
+                time = timeit.default_timer() - start
+                output_file.write(f"{k}-{len(s)}-{time} \n")
+
+    with open("input.txt", "r") as file:
+        with open("result_onlogn.txt", "w") as output_file:
+            line = file.readline()
+            num_test = int(line)
+            for test in range(num_test):
+                s = [int(i) for i in file.readline().split()]
+
+                start = timeit.default_timer()
+                k = lis_onlogn(s)
+                time = timeit.default_timer() - start
+                output_file.write(f"{k}-{len(s)}-{time} \n")
