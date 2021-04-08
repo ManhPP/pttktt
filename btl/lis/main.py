@@ -138,49 +138,48 @@ if __name__ == '__main__':
     # s = [12, 8, 9, 1, 11, 6, 7, 2, 10, 4, 5, 3, 15, 13, 14]
     # print(main(s))
 
-    with open("input.txt", "r") as file:
-        with open("result_main.txt", "w") as output_file:
-            num_test = int(file.readline())
-            for test in range(num_test):
-                s = [int(i) for i in file.readline().split()]
-
-                start = timeit.default_timer()
-                k = main(s)
-                time = timeit.default_timer() - start
-                output_file.write(f"{k[0]}-{len(s)}-{time:.3f}\n")
-
-    with open("input.txt", "r") as file:
-        with open("result_core.txt", "w") as output_file:
-            line = file.readline()
-            num_test = int(line)
-            for test in range(num_test):
-                s = [int(i) for i in file.readline().split()]
-
-                start = timeit.default_timer()
-                k = core_alg(s)
-                time = timeit.default_timer() - start
-                output_file.write(f"{k}-{len(s)}-{time} \n")
-
-    with open("input.txt", "r") as file:
-        with open("result_dp.txt", "w") as output_file:
-            line = file.readline()
-            num_test = int(line)
-            for test in range(num_test):
-                s = [int(i) for i in file.readline().split()]
-
-                start = timeit.default_timer()
-                k = lis_dp(s)
-                time = timeit.default_timer() - start
-                output_file.write(f"{k}-{len(s)}-{time} \n")
+    # with open("input.txt", "r") as file:
+    #     with open("result_main.txt", "w") as output_file:
+    #         num_test = int(file.readline())
+    #         for test in range(num_test):
+    #             s = [int(i) for i in file.readline().split()]
+    #
+    #             start = timeit.default_timer()
+    #             k = main(s)
+    #             time = timeit.default_timer() - start
+    #             output_file.write(f"{k[0]}-{len(s)}-{time:.3f}\n")
+    #
+    # with open("input.txt", "r") as file:
+    #     with open("result_core.txt", "w") as output_file:
+    #         line = file.readline()
+    #         num_test = int(line)
+    #         for test in range(num_test):
+    #             s = [int(i) for i in file.readline().split()]
+    #
+    #             start = timeit.default_timer()
+    #             k = core_alg(s)
+    #             time = timeit.default_timer() - start
+    #             output_file.write(f"{k}-{len(s)}-{time} \n")
 
     with open("input.txt", "r") as file:
-        with open("result_onlogn.txt", "w") as output_file:
-            line = file.readline()
-            num_test = int(line)
-            for test in range(num_test):
-                s = [int(i) for i in file.readline().split()]
+        line = file.readline()
+        num_test = int(line)
+        for test in range(num_test):
+            s = [int(i) for i in file.readline().split()]
 
-                start = timeit.default_timer()
-                k = lis_onlogn(s)
-                time = timeit.default_timer() - start
-                output_file.write(f"{k}-{len(s)}-{time} \n")
+            start = timeit.default_timer()
+            k = lis_dp(s)
+            time = timeit.default_timer() - start
+            print(f"{k}-{len(s)}-{time} \n")
+
+    # with open("input.txt", "r") as file:
+    #     with open("result_onlogn.txt", "w") as output_file:
+    #         line = file.readline()
+    #         num_test = int(line)
+    #         for test in range(num_test):
+    #             s = [int(i) for i in file.readline().split()]
+    #
+    #             start = timeit.default_timer()
+    #             k = lis_onlogn(s)
+    #             time = timeit.default_timer() - start
+    #             output_file.write(f"{k}-{len(s)}-{time} \n")
